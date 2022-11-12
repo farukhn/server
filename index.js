@@ -10,7 +10,7 @@ app.use(cors())
 app.use(express.json())
 
 
-const uri = `mongodb+srv://food:wHOK1sr2HODAzjCv@cluster0.hyctidv.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.hyctidv.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 // const client = new MongoClient(uri, {
 //     useNewUrlParser: true,
@@ -75,6 +75,11 @@ const run = async() =>{
             const result = await cursor.toArray();
             res.send(result);
         });
+        app.get(
+            '/', (req,res)=> {
+                res.send('hello india')
+            }
+        )
         // my review
         app.get('/myreviews',verifyToken,async(req,res)=>{
             const decoded = req.decoded;
